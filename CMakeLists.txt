@@ -5,12 +5,30 @@ project(doodle_drawer)
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# find QT Core module
+# Find Qt Core module
 find_package(Qt6 6.8 REQUIRED COMPONENTS Core)
 
-add_executable(${PROJECT_NAME} src/main.cpp)
+# Enable automatic MOC, UIC, and RCC handling by CMake
+set(CMAKE_AUTOMOC ON)
+set(CMAKE_AUTOUIC ON)
+set(CMAKE_AUTORCC ON)
 
-# link libraries
-target_link_libraries(${PROJECT_NAME} Qt${QT_VERSION_MAJOR}::Core)
+# Add source files
+set(SOURCES
+  src/main.cpp
+  src/gamemanager.cpp
+)
 
+# Add header files (optional, for reference only)
+set(HEADERS
+  includes/gamemanager.h
+)
 
+# Add executable target first
+add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+
+# Add include directories after defining the target
+target_include_directories(${PROJECT_NAME} PRIVATE ${PROJECT_SOURCE_DIR}/includes)
+
+# Link libraries
+target_link_libraries(${PROJECT_NAME} Qt6::Core)
